@@ -13,10 +13,22 @@
         android:layout_height="wrap_content"
         android:text="Result activity" />
 
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="\nГрафики ускорений (в м/с^2):" />
+
     <com.jjoe64.graphview.GraphView
         android:id="@+id/graphView1"
         android:layout_width="match_parent"
         android:layout_height="200dip"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="(Цветные линии - графики проекций ускорения по трем осям.\nСерая линия - график функции, эквивалентный реальному ускорению.\n" />
 
     <TextView
         android:id="@+id/txt_ar_info"

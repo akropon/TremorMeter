@@ -61,11 +61,9 @@ public class ResultActivity extends AppCompatActivity {
 
                 StringBuilder strOut = new StringBuilder();
                 strOut.append("Готово");
-                strOut.append("\nчастота = " + Mem.rate);
-                strOut.append("\nамплитуда ускорения = " + Mem.ampAcc);
-                strOut.append("\nамплитуда колебания = " + Mem.ampPos);
-                strOut.append("\n");
-                strOut.append("\n");
+                strOut.append(String.format("\nЧастота = %.1f Гц", Mem.rate));
+                //strOut.append("\nамплитуда ускорения = " + Mem.ampAcc);
+                strOut.append(String.format("\nАмплитуда колебания = %.1f мм", Mem.ampPos*1000));
                 strOut.append("\n");
 
 
