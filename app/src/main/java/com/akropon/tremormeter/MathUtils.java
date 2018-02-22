@@ -1,27 +1,17 @@
 package com.akropon.tremormeter;
 
 /**
- * Created by akropon on 31.01.18.
+ * Математические полезности
  */
 
 public class MathUtils {
 
-    /*public static float[] makeWindowSmoothing(float[] arr, int windowWidth) {
-
-        if (arr.length < 2*windowWidth )
-            throw new IllegalArgumentException("arr.length < 2*windowWidth. " +
-                    "arr.length="+arr.length+" windowWidth="+windowWidth);
-
-        int len = arr.length;
-        float[] result = new float[len];
-        int winWidthLeft = windowWidth / 2;
-        int winWidthRight = windowWidth - winWidthLeft;
-
-        for (int cursor=0; cursor<windowWidth; cursor++) {
-
-        }
-    }*/
-
+    /**
+     * Сглаживание фукнции по трем точкам методом среднего арифметического
+     *
+     * @param arr - массив значений фукнции
+     * @return - массив значений сглаженной функции того же размера, что и входной массив
+     */
     public static float[] makeWindowSmoothing3p(float[] arr) {
         int len = arr.length;
         float[] result = new float[len];
@@ -34,6 +24,11 @@ public class MathUtils {
         return result;
     }
 
+    /** Среднее арифметичское массива
+     *
+     * @param arr - массив
+     * @return - среднее арифметичское входного массива
+     */
     public static float getAverage(float[] arr) {
         float result = 0;
         for (int i = 0; i < arr.length; i++) {
@@ -51,6 +46,16 @@ public class MathUtils {
         return result;
     }
 
+    /** К каждому значению массива прибавляет константу.
+     *
+     * Результат операции записывается либо в новый массив, либо во входной.
+     * В случае, если результат операции записывается во входной массив, функция возвращает null.
+     *
+     * @param addictive - константа для прибавляния
+     * @param arr - массив
+     * @param rewrite - [true - перезапись поверх входного массива][false - запись в новый массив]
+     * @return - [null, если rewrite == true][выходной массив, если rewrite == false]
+     */
     public static float[] addToEach(float addictive, float[] arr, boolean rewrite) {
         if (rewrite) {
             for (int i = 0; i < arr.length; i++)
@@ -64,6 +69,14 @@ public class MathUtils {
         }
     }
 
+    /** Поэлементная сумма двух массивов.
+     * Результат записывается в новый массив.
+     * Массивы должны быть одного размера
+     *
+     * @param arr1 - массив1
+     * @param arr2 - массив2
+     * @return выходной массив того же размера, что и входные
+     */
     public static float[] sumEach(float[] arr1, float[] arr2) {
         float[] result = new float[arr1.length];
         for (int i = 0; i < arr1.length; i++)
@@ -71,6 +84,15 @@ public class MathUtils {
         return result;
     }
 
+
+    /** Поэлементная разность двух массивов.
+     * Результат записывается в новый массив.
+     * Массивы должны быть одного размера
+     *
+     * @param arrFrom - массив, из которого вычитают
+     * @param arrWhat - массив, который вычитают
+     * @return выходной массив того же размера, что и входные
+     */
     public static float[] subEach(float[] arrFrom, float[] arrWhat) {
         float[] result = new float[arrFrom.length];
         for (int i = 0; i < arrFrom.length; i++)
@@ -78,6 +100,26 @@ public class MathUtils {
         return result;
     }
 
+    /** Поиск локальных максимумов фукнции
+     * Локальным максимумом считается точка, которая является глобальным максимум
+     * в своем "окне".
+     * "Окно" - локальная часть фукнции.
+     * Локальный максимум единственный в своем окне.
+     * Окна не пересекаются.
+     * [длина окна] = 2 * [радиус окна] + 1
+     * Радиус окна задается аргументом.
+     * Локальный максимум находится в центре своего окна.
+     * Локальный максимум >= все остальные точки окна.
+     * Если рядом имеются две одинаковые точки, значения которых равны между собой и
+     *   равны локальному масмому в данном окне, то первая точка станет локальным максимумом,
+     *   а вторая нет.
+     * Окна, которые на полностью покрыты значниями фукнции (на краях фукнции), не рассматриваются.
+     *
+     *
+     * @param arr - массив значений фукнции
+     * @param windowRad - радиус окна
+     * @return - массив индексов локальных максимумов в порядке возрастания индекса.
+     */
     public static int[] findMaxes(float[] arr, int windowRad) {
         int[] resultContainer = new int[arr.length / (2 * windowRad - 1) + 2];
         int resultSize = 0;
@@ -116,6 +158,16 @@ public class MathUtils {
         return result;
     }
 
+    /** Поиск локальных минимум фукнции по заданному окну.
+     * ...
+     * Описание аналогично описанию фукнции "findMaxes(float[] arr, int windowRad)"
+     * с инвертированием понятия "максимум" и знака неравенства ">="
+     * ...
+     *
+     * @param arr - массив значений фукнции
+     * @param windowRad - радиус окна
+     * @return - массив индексов локальных минимумов в порядке возрастания индекса.
+     */
     public static int[] findMines(float[] arr, int windowRad) {
         int[] resultContainer = new int[arr.length / (2 * windowRad - 1) + 2];
         int resultSize = 0;
@@ -154,7 +206,18 @@ public class MathUtils {
         return result;
     }
 
-
+    /**
+     * Сглаживание фукнции по окну методом среднего арифметического
+     *
+     * Сглаживаемая точка находится в середине окна.
+     *
+     * Для окон с неопределенными точками (на краях фукнции) учитываются только определенным точки
+     *   (т.е. окно как бы становится в этих местах короче)
+     *
+     * @param arr - массив значений фукнции
+     * @param windowWidth - ширина окна
+     * @return - массив значений сглаженной функции того же размера, что и входной массив
+     */
     public static float[] getFilteredArr(float[] arr, int windowWidth) {
         float[] result = new float[arr.length];
         float windowSum = 0;
@@ -186,6 +249,17 @@ public class MathUtils {
         return result;
     }
 
+    /** Поэлементный поиск модулей вектором
+     *   в 3-мерном евклидовом пространстве по трем координатам.
+     *
+     * Для трех массивов X, Y и Z одинаковой длины создается массив D, где:
+     * D[i] = ( X[i]^2 + Y[i]^2 + Z[i]^2 ) ^ ( 1/2 )
+     *
+     * @param arr1 - массив X
+     * @param arr2 - массив Y
+     * @param arr3 - массив Z
+     * @return - массив D той же длины, что и входные массивы
+     */
     public static float[] module(float[] arr1, float[] arr2, float[] arr3) {
         float[] result = new float[arr1.length];
         for (int i=0; i<arr1.length; i++) {
@@ -194,6 +268,15 @@ public class MathUtils {
         return result;
     }
 
+    /** Модуль векора по трем координатам в 3-мерном евклидовом пространстве
+     *
+     * d = ( x^2 + y^2 + z^2 ) ^ ( 1/2 )
+     *
+     * @param var1 - x
+     * @param var2 - y
+     * @param var3 - z
+     * @return - d
+     */
     public static float module(float var1, float var2, float var3) {
         return (float)Math.sqrt(var1*var1+var2*var2+var3*var3);
     }

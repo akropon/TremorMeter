@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -49,6 +50,8 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
         //sensorAcc = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorAcc = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         listenerAcc = new AccListner();
+        int a = 0;
+        a++;
     }
 
     @Override
@@ -77,8 +80,17 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
             TimerTask task = new TimerTaskRealization();
             timer.schedule(task, 1000, 1000); // первое выполнение через 1 сек, затем выполнение через каждую 1 сек
 
-            sensorManager.registerListener(
+            boolean success = sensorManager.registerListener(
                     listenerAcc, sensorAcc, SensorManager.SENSOR_DELAY_FASTEST);
+
+
+            /*  // проверочка для отладки
+            if (success)
+                Log.i("[akropon]", "accSensorListener succesfully attached");
+            else
+                Log.e("[akropon]", "accSensorListener unsuccesfully attached");*/
+
+
         }
 
     }
