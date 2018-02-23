@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Timer;
@@ -26,11 +27,15 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
     Button btn_start;
     /** Информационное текстовое поле */
     TextView txt_am_info;
+    /** Статусное текстовое поле */
+    TextView txt_am_status;
+    /** Основной лэйоут */
+    LinearLayout layoutMain;
 
     /** Состояние таймера (true - запущен и работает, false -  не запущен) */
     boolean isTimerWorking;
-    /** Сколько времени до конца измерения осталось в секундах */
-    int measureTimeLeft;
+    /** Сколько времени до конца измерения (включая  осталось в секундах */
+    int timeLeft;
     /** Объект таймера */
     Timer timer;
 
@@ -60,6 +65,8 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
 
         btn_start = findViewById(R.id.btn_am_start);
         txt_am_info = findViewById(R.id.txt_am_info);
+        txt_am_status = findViewById(R.id.txt_am_status);
+        layoutMain = findViewById(R.id.lyt_am_main);
 
         btn_start.setOnClickListener(this);
 
@@ -103,13 +110,16 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
      *   самым начало измерения.
      */
     private void onClickBtnStart() {
-        Mem.measureTimeInit = 3; // TODO это должно чем-то определяться как-то иначе
 
         if (isTimerWorking==false) {
             isTimerWorking = true;
-            measureTimeLeft = Mem.measureTimeInit;
+            timeLeft = Mem.measureTimeInit + Cnst.delayTimeInit;
 
-            updateUI_sync();
+            //updateUI_sync();
+            btn_start.setTextSize(60);
+            btn_start.setText(String.valueOf(Cnst.delayTimeInit));
+            layoutMain.setBackgroundResource(R.color.bckgndDelay);
+            txt_am_status.setText("ЗАДЕРЖКА");
 
             Mem.accMeasuredArray.clear();
 
@@ -117,8 +127,6 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
             TimerTask task = new TimerTaskRealization();
             timer.schedule(task, 1000, 1000); // первое выполнение через 1 сек, затем выполнение через каждую 1 сек
 
-            boolean success = sensorManager.registerListener(
-                    listenerAcc, sensorAcc, SensorManager.SENSOR_DELAY_FASTEST);
 
 
             /*  // проверочка для отладки
@@ -144,26 +152,6 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
         super.onPause();
     }
 
-    /**
-     * Метод обновляния выводимой информации на активности (синхронизированный)
-     *
-     * Метод можно вызывать из любых других потоков.
-     * Моментальное обновляние выводимой информации не гарантируется.
-     */
-    private void updateUI_sync() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                if (isTimerWorking) {
-                    txt_am_info.setText("time left = "+measureTimeLeft);
-                } else {
-                    txt_am_info.setText("timer is OFF");
-                }
-
-            }
-        });
-    }
 
     /**
      * Метод, вызывающийся по окончанию процедуры измерения, когда все значения уже сняты
@@ -192,13 +180,49 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
     private class TimerTaskRealization extends TimerTask {
         @Override
         public void run() {
-            measureTimeLeft--;
-            updateUI_sync();
+            timeLeft--;
 
-            if (measureTimeLeft == 0) {
+            if (timeLeft == Mem.measureTimeInit) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        txt_am_status.setText("ЗАМЕР");
+                        layoutMain.setBackgroundResource(R.color.bckgndMeasure);
+                        sensorManager.registerListener(
+                                listenerAcc, sensorAcc, SensorManager.SENSOR_DELAY_FASTEST);
+
+                    }
+                });
+            }
+
+            if (timeLeft > Mem.measureTimeInit) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        btn_start.setText(String.valueOf(timeLeft - Mem.measureTimeInit));
+
+                    }
+                });
+            } else {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        btn_start.setText(String.valueOf(timeLeft));
+
+                    }
+                });
+            }
+
+
+            if (timeLeft == 0) {
                 isTimerWorking = false; // уведомляем о завершении работы таймера
                 timer.cancel(); // снимаем задачу таймера
             }
+
+
         }
     }
 

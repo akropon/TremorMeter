@@ -4,14 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
+    android:background="@color/bckgndSuccess"
     tools:context="com.akropon.tremormeter.ResultActivity">
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Result activity" />
 
 
     <TextView
@@ -31,10 +29,34 @@
         android:text="(Цветные линии - графики проекций ускорения по трем осям.\nСерая линия - график функции, эквивалентный реальному ускорению.\n" />
 
     <TextView
-        android:id="@+id/txt_ar_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:text="Частота (Гц):" />
+
+    <TextView
+        android:id="@+id/txt_ar_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:text="unknown" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:text="Амплитуда (мм):" />
+
+    <TextView
+        android:id="@+id/txt_ar_amp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:text="unknown" />
 
 
 </LinearLayout>

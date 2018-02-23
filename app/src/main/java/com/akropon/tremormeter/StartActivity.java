@@ -25,9 +25,11 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        ((Button)findViewById(R.id.btn_as_mode1)).setOnClickListener(this);
-        ((Button)findViewById(R.id.btn_as_mode2)).setOnClickListener(this);
-        ((Button)findViewById(R.id.btn_as_mode3)).setOnClickListener(this);
+        ((Button)findViewById(R.id.btn_as_1)).setOnClickListener(this);
+        ((Button)findViewById(R.id.btn_as_2)).setOnClickListener(this);
+        ((Button)findViewById(R.id.btn_as_3)).setOnClickListener(this);
+        ((Button)findViewById(R.id.btn_as_4)).setOnClickListener(this);
+        ((Button)findViewById(R.id.btn_as_5)).setOnClickListener(this);
     }
 
     /** Обработчик нажатия кнопок активности
@@ -37,28 +39,35 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
-            case R.id.btn_as_mode1:
-                launchMeasureActivityWithMode(Cnst.Modes.FIRST);
+            case R.id.btn_as_1:
+                launchMeasureActivityWithTime(3);
                 break;
-            case R.id.btn_as_mode2:
-                launchMeasureActivityWithMode(Cnst.Modes.SECOND);
+            case R.id.btn_as_2:
+                launchMeasureActivityWithTime(5);
                 break;
-            case R.id.btn_as_mode3:
-                launchMeasureActivityWithMode(Cnst.Modes.THIRD);
+            case R.id.btn_as_3:
+                launchMeasureActivityWithTime(10);
+                break;
+            case R.id.btn_as_4:
+                launchMeasureActivityWithTime(15);
+                break;
+            case R.id.btn_as_5:
+                launchMeasureActivityWithTime(20);
                 break;
             default:
                 break;
         }
     }
 
-    /** Процедура запуска активности измерения и передача ей информации по выбранному режиму
+
+    /** Процедура запуска активности измерения и передача ей информации по выбранному времени
      *   измерения
      *
-     * @param mode - режим измерения
+     * @param time - время измерения
      */
-    private void launchMeasureActivityWithMode(int mode) {
+    private void launchMeasureActivityWithTime(int time) {
         Intent intent = new Intent(StartActivity.this, MeasureActivity.class);
-        Mem.mode = mode;
+        Mem.measureTimeInit = time;
         startActivity(intent);
     }
 }

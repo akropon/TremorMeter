@@ -2,25 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lyt_am_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/bckgndMain"
     tools:context="com.akropon.tremormeter.MeasureActivity">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Measure activity" />
 
     <TextView
         android:id="@+id/txt_am_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:text="unknown" />
+
+    <TextView
+        android:id="@+id/txt_am_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:text="ОЖИДАНИЕ" />
 
     <Button
         android:id="@+id/btn_am_start"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Start" />
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:textSize="30dp"
+        android:text="Старт" />
 </LinearLayout>

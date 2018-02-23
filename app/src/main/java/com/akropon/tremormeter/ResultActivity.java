@@ -18,10 +18,12 @@ import com.jjoe64.graphview.series.PointsGraphSeries;
  */
 public class ResultActivity extends AppCompatActivity {
 
-    /** Информационное текстовое поле */
-    TextView txt_info;
     /** Поле графика */
     GraphView graphView1;
+
+    TextView txt_ar_rate;
+    TextView txt_ar_amp;
+
     /** Класс, обеспечивающий асинхронный анализ данных */
     AnalysisExicutor analysisExicutor;
 
@@ -32,6 +34,7 @@ public class ResultActivity extends AppCompatActivity {
      * Привязывает переменные к элементам активности.
      * Задает начальные состояния элементов активности.
      * Запускает асинхронный анализ данных замера.
+     * Настраивает поле графика
      *
      * @param savedInstanceState
      */
@@ -40,13 +43,14 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        txt_info = findViewById(R.id.txt_ar_info);
         graphView1 = findViewById(R.id.graphView1);
-
-        txt_info.setText("Идет анализ...");
+        txt_ar_rate = findViewById(R.id.txt_ar_rate);
+        txt_ar_amp = findViewById(R.id.txt_ar_amp);
 
         analysisExicutor = new AnalysisExicutor();
         analysisExicutor.start();
+
+        graphView1.setBackgroundColor(getResources().getColor(R.color.softLightGreen));
     }
 
     /** Метод для вывода результатов анализа данных. (синхронизирован)
@@ -81,15 +85,8 @@ public class ResultActivity extends AppCompatActivity {
                 graphView1.getViewport().setScrollableY(true);
 
 
-                StringBuilder strOut = new StringBuilder();
-                strOut.append("Готово");
-                strOut.append(String.format("\nЧастота = %.1f Гц", Mem.rate));
-                //strOut.append("\nамплитуда ускорения = " + Mem.ampAcc);
-                strOut.append(String.format("\nАмплитуда колебания = %.1f мм", Mem.ampPos*1000));
-                strOut.append("\n");
-
-
-                txt_info.setText(strOut.toString());
+                txt_ar_rate.setText(String.format("%.1f", Mem.rate));
+                txt_ar_amp.setText(String.format("%.2f", Mem.ampPos));
             }
         });
     }

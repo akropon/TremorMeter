@@ -5,31 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/bckgndMain"
     tools:context="com.akropon.tremormeter.StartActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start activity"/>
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:text="Выберите длительность \nизмерения:"
+        android:layout_margin="15dp"/>
 
     <Button
-        android:id="@+id/btn_as_mode1"
-        android:layout_width="match_parent"
+        android:id="@+id/btn_as_1"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="mode 1" />
+        android:textSize="15dp"
+        android:text="3 секунды" />
 
     <Button
-        android:id="@+id/btn_as_mode2"
-        android:layout_width="match_parent"
+        android:id="@+id/btn_as_2"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="mode 2" />
+        android:textSize="15dp"
+        android:text="5 секунд" />
 
     <Button
-        android:id="@+id/btn_as_mode3"
-        android:layout_width="match_parent"
+        android:id="@+id/btn_as_3"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="mode 3" />
+        android:textSize="15dp"
+        android:text="10 секунд" />
+
+    <Button
+        android:id="@+id/btn_as_4"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:text="15 секунд" />
+
+    <Button
+        android:id="@+id/btn_as_5"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:text="20 секунд" />
 
 </LinearLayout>
