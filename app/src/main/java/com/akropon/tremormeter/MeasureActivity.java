@@ -15,19 +15,44 @@ import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/** Класс активности измерения
+ *
+ * Обеспечивает измерение и запуск активности вывода результата
+ *
+ */
 public class MeasureActivity extends AppCompatActivity implements View.OnClickListener{
 
+    /** Кнопка запуска измерения */
     Button btn_start;
+    /** Информационное текстовое поле */
     TextView txt_am_info;
 
+    /** Состояние таймера (true - запущен и работает, false -  не запущен) */
     boolean isTimerWorking;
+    /** Сколько времени до конца измерения осталось в секундах */
     int measureTimeLeft;
+    /** Объект таймера */
     Timer timer;
 
+    /** Ссылка на менеджер сенсоров устройства */
     SensorManager sensorManager;
+    /** Ссылка на сенсор ускорения */
     Sensor sensorAcc;
+    /** Ссылка на обработчик события изменения сенсора ускорения */
     SensorEventListener listenerAcc;
 
+    /** onCreate
+     *
+     * Вызывается при создании активности.
+     * Привязывает нужный лейоут.
+     * Привязывает переменные к элементам активности.
+     * Задает начальные значения остальных переменных.
+     * Задает начальные состояния элементов активности.
+     * Настраивает сенсор и обработчик сенсора (но не запускает их).
+     * Привязывает обработчик нажатий к элементам лейоута.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,10 +75,12 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
         //sensorAcc = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorAcc = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         listenerAcc = new AccListner();
-        int a = 0;
-        a++;
     }
 
+    /** Обработчик нажатия кнопок активности
+     *
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -65,6 +92,16 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    /**
+     * Процедура обработки нажатия кнопки запуска замера.
+     *
+     * Инициализирует начальные переменные слежения за временем.
+     * Обновляет информацию на экране.
+     * Создает и запускает таймер слежения за временем замера и обеспечением обновления информации
+     *   на экране.
+     * Привязывает обработчик событий изменения сенсора ускорения к сенсору ускорения, инициируя тем
+     *   самым начало измерения.
+     */
     private void onClickBtnStart() {
         Mem.measureTimeInit = 3; // TODO это должно чем-то определяться как-то иначе
 
@@ -95,6 +132,11 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    /**
+     * Переопределение метода onPause()
+     *
+     * Останавливает таймер и "обнуляет" переменную его состояния
+     */
     @Override
     protected void onPause() {
         timer.cancel();
@@ -102,8 +144,12 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
         super.onPause();
     }
 
-
-
+    /**
+     * Метод обновляния выводимой информации на активности (синхронизированный)
+     *
+     * Метод можно вызывать из любых других потоков.
+     * Моментальное обновляние выводимой информации не гарантируется.
+     */
     private void updateUI_sync() {
         runOnUiThread(new Runnable() {
             @Override
@@ -119,6 +165,14 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
+    /**
+     * Метод, вызывающийся по окончанию процедуры измерения, когда все значения уже сняты
+     *   с сенсора и записаны в соответствующие массивы. (синхронизированный).
+     *
+     * Метод обеспечивает переход к активности вывода результатов.
+     *
+     * Метод можно вызывать из любых других потоков.
+     */
     private void endOfMesuring_sync() {
         runOnUiThread(new Runnable() {
             @Override
@@ -131,6 +185,10 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
+    /**
+     * Реализация таймера с интервалом в секунду, занимающийся отсчетом оставшегося времени
+     *   измерения и обновлением состояния выводимой на экран информации
+     */
     private class TimerTaskRealization extends TimerTask {
         @Override
         public void run() {
@@ -145,6 +203,13 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
+    /**
+     * Реализация обработчика событий изменения сенсора.
+     *
+     * Предназначен для сбора информации с сенсоров и записи ее в соответствующие массивы,
+     * пока это необходимо. По окончанию необходимости сбора информации, обработчик сам себя
+     * отвязывает от сенсора.
+     */
     private class AccListner implements SensorEventListener {
 
         @Override

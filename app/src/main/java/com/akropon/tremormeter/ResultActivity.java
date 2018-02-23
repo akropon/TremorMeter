@@ -11,12 +11,30 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 
+/**
+ * Класс активности результата измерения.
+ *
+ * Обеспечивает анализ данных измерения и вывод результатов на экран.
+ */
 public class ResultActivity extends AppCompatActivity {
 
+    /** Информационное текстовое поле */
     TextView txt_info;
+    /** Поле графика */
     GraphView graphView1;
+    /** Класс, обеспечивающий асинхронный анализ данных */
     AnalysisExicutor analysisExicutor;
 
+    /** onCreate
+     *
+     * Вызывается при создании активности.
+     * Привязывает нужный лейоут.
+     * Привязывает переменные к элементам активности.
+     * Задает начальные состояния элементов активности.
+     * Запускает асинхронный анализ данных замера.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +49,10 @@ public class ResultActivity extends AppCompatActivity {
         analysisExicutor.start();
     }
 
+    /** Метод для вывода результатов анализа данных. (синхронизирован)
+     *
+     *  Может вызываться из любых потоков.
+     */
     protected void endOfAnalysis_sync() {
         runOnUiThread(new Runnable() {
             @Override
@@ -73,6 +95,9 @@ public class ResultActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Класс, обеспечивающий выполнение анализа данных замера асинхронно.
+     */
     private class AnalysisExicutor extends Thread {
         @Override
         public void run() {
@@ -216,7 +241,13 @@ public class ResultActivity extends AppCompatActivity {
 
     }
 
-
+    /** Построение графика функции в виде линий
+     *
+     * @param arrX - массив значений по оси абсцисс
+     * @param arrY - массив значений по оси ординат
+     * @param color - цвет
+     * @param graphView - поле графика на активности
+     */
     private void showGraphFor(float[] arrX, float[] arrY, int color, GraphView graphView) {
         DataPoint[] dataPoints = new DataPoint[arrX.length];
         for (int i = 0; i < arrX.length; i++)
@@ -227,6 +258,13 @@ public class ResultActivity extends AppCompatActivity {
         graphView.addSeries(series);
     }
 
+    /** Построение графика функции в виде отдельных точек
+     *
+     * @param arrX - массив значений по оси абсцисс
+     * @param arrY - массив значений по оси ординат
+     * @param color - цвет
+     * @param graphView - поле графика на активности
+     */
     private void showPointsFor(float[] arrX, float[] arrY, int color, GraphView graphView) {
         DataPoint[] dataPoints = new DataPoint[arrX.length];
         for (int i = 0; i < arrX.length; i++)
@@ -237,6 +275,11 @@ public class ResultActivity extends AppCompatActivity {
         graphView.addSeries(series);
     }
 
+    /** Метод Sleep(...) для вызывающего потока.
+     *
+     * Обертка для метода Thread.sleep(long millis), заглушающая исключения
+     * @param millis - время в миллисекундах
+     */
     private static void sleep(long millis) {
         try {
             Thread.sleep(millis);
