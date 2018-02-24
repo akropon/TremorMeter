@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -118,11 +120,16 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
             isTimerWorking = true;
             timeLeft = Mem.measureTimeInit + Cnst.delayTimeInit;
 
-            //updateUI_sync();
             btn_start.setTextSize(60);
             btn_start.setText(String.valueOf(Cnst.delayTimeInit));
             layoutMain.setBackgroundResource(R.color.bckgndDelay);
             txt_am_status.setText("ЗАДЕРЖКА");
+            findViewById(R.id.btn_am_tart_cycle2).setVisibility(View.INVISIBLE);
+            findViewById(R.id.btn_am_tart_cycle1).startAnimation(
+                    AnimationUtils.loadAnimation(this, R.anim.btn_start_anim0));
+
+
+
 
             Mem.accMeasuredArray.clear();
 

@@ -28,10 +28,40 @@
         android:textSize="25dp"
         android:text="ОЖИДАНИЕ" />
 
-    <Button
-        android:id="@+id/btn_am_start"
+    <FrameLayout
         android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:textSize="30dp"
-        android:text="Старт" />
+        android:layout_height="150dp">
+
+
+
+        <ImageView
+            android:id="@+id/btn_am_start_cycle0"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/cycle_yellow" />
+
+        <ImageView
+            android:id="@+id/btn_am_tart_cycle1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/cycle_red" />
+
+        <ImageView
+            android:id="@+id/btn_am_tart_cycle2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/cycle_green" />
+
+        <Button
+            android:id="@+id/btn_am_start"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:text="Старт"
+            android:textSize="30dp" />
+    </FrameLayout>
+
 </LinearLayout>
