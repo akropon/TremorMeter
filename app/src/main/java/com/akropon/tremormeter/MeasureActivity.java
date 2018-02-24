@@ -38,6 +38,8 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
     int timeLeft;
     /** Объект таймера */
     Timer timer;
+    /** Вызывался ли onResume() раньше */
+    boolean isZeroTimesResumed;
 
     /** Ссылка на менеджер сенсоров устройства */
     SensorManager sensorManager;
@@ -74,9 +76,10 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
                 +"\nНажмите СТАРТ чтобы начать замер.");
 
 
-        boolean isTimerWorking = false;
-        int measureTimeLeft = 0;
-        Timer timer = null;
+        isTimerWorking = false;
+        timeLeft = 0;
+        timer = null;
+        isZeroTimesResumed = true;
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         //sensorAcc = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -147,11 +150,39 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
      */
     @Override
     protected void onPause() {
-        timer.cancel();
-        isTimerWorking = false;
+        if (isTimerWorking) {
+            timer.cancel();
+            sensorManager.unregisterListener(listenerAcc);
+        }
+
         super.onPause();
     }
 
+    /**
+     * Переопределение метода onResume()
+     *
+     * Если активность встает в фокус на в первый раз, то сразу же закрывается.
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (isZeroTimesResumed) {
+            isZeroTimesResumed = false;
+        } else {
+            this.finish();
+        }
+    }
+
+    /**
+     * Переопрадаление метода, вызывающегося при нажатии кнопки "Назад"
+     *
+     * Закрываем активность.
+     */
+    @Override
+    public void onBackPressed() {
+        this.finish();
+    }
 
     /**
      * Метод, вызывающийся по окончанию процедуры измерения, когда все значения уже сняты

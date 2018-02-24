@@ -53,6 +53,16 @@ public class ResultActivity extends AppCompatActivity {
         graphView1.setBackgroundColor(getResources().getColor(R.color.softLightGreen));
     }
 
+    /**
+     * Переопрадаление метода, вызывающегося при нажатии кнопки "Назад"
+     *
+     * Закрываем активность.
+     */
+    @Override
+    public void onBackPressed() {
+        this.finish();
+    }
+
     /** Метод для вывода результатов анализа данных. (синхронизирован)
      *
      *  Может вызываться из любых потоков.
