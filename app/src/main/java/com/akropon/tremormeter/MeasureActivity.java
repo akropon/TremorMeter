@@ -74,9 +74,10 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
 
         btn_start.setOnClickListener(this);
 
-        txt_am_info.setText("Выбранный режим: "+Mem.mode
-                +"\nНажмите СТАРТ чтобы начать замер.");
-
+        txt_am_info.setText("Выбранное время измерения: " + Mem.measureTimeInit + " с"
+                +"\n\nНажмите СТАРТ чтобы начать замер."
+                +"\n\nПеред началом измерения будет дана задержка длительностью "
+                +Cnst.delayTimeInit+" с"+", чтобы Вы успели установить устройство в исходное положение.");
 
         isTimerWorking = false;
         timeLeft = 0;
