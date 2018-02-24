@@ -96,7 +96,12 @@ public class ResultActivity extends AppCompatActivity {
 
 
                 txt_ar_rate.setText(String.format("%.1f", Mem.rate));
-                txt_ar_amp.setText(String.format("%.2f", Mem.ampPos*1000)); // "*1000" - переводим метры в мм
+                float apmPos_mm = Mem.ampPos*1000;  // "*1000" - переводим метры в мм
+                if ( apmPos_mm < 1.0f) {
+                    txt_ar_amp.setText(String.format("менее"+" 1.00"));
+                } else {
+                    txt_ar_amp.setText(String.format("%.2f", apmPos_mm));
+                }
             }
         });
     }
