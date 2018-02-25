@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
@@ -170,8 +171,10 @@ public class ResultActivity extends AppCompatActivity {
             int accZMaxesAmount;
             int accZMinesAmount;
 
-            windowWidth = 5;
-
+            // windowWidth - в названии "длина", но использоватьсо будет как "радиус"
+            // N_rad = окр.вверх( N_all / 12 Гц / 4 четверти периода / T_all)
+            windowWidth = (int)(Math.ceil( Mem.arrTime.length / 12.0 / 4 / Mem.measureTimeInit ));
+            Log.i("[akropon]", "AnalysisExicutor.run(): smoothingWindowRadius="+windowWidth);
 
             arrVarI = MathUtils.findMaxes(Mem.arrAccX, windowWidth);
             arrVar = new float[arrVarI.length];
@@ -241,8 +244,6 @@ public class ResultActivity extends AppCompatActivity {
             Mem.ampAcc = ampAccMod;
             Mem.ampPos = ampPosMod;
             Mem.rate = rate;
-
-            // TODO
 
             endOfAnalysis_sync();
 
