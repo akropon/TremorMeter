@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="bckgndMain">#e7e7e7</color>
     <color name="bckgndDelay">#d17160</color>
+    <color name="bckgndError">#d17160</color>
     <color name="bckgndMeasure">#d1c471</color>
     <color name="bckgndSuccess">#72c491</color>
     <color name="softLightGreen">#bde9ce</color>

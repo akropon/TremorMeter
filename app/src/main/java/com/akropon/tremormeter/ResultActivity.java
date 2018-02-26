@@ -61,7 +61,8 @@ public class ResultActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
-        this.finish();
+        setResult(Cnst.RESULT_GO_TO_START_ACTIVITY);
+        finish();
     }
 
     /** Метод для вывода результатов анализа данных. (синхронизирован)

@@ -43,6 +43,8 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
     /** Вызывался ли onResume() раньше */
     boolean isZeroTimesResumed;
 
+    boolean sensorNotFound;
+
     /** Ссылка на менеджер сенсоров устройства */
     SensorManager sensorManager;
     /** Ссылка на сенсор ускорения */
@@ -85,9 +87,15 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
         isZeroTimesResumed = true;
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        //sensorAcc = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorAcc = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-        listenerAcc = new AccListner();
+        sensorAcc = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        //sensorAcc = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+
+        if (sensorAcc == null) {
+        //if (true) {
+            sensorNotFound = true;
+        } else {
+            listenerAcc = new AccListner();
+        }
     }
 
     /** Обработчик нажатия кнопок активности
@@ -170,6 +178,7 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
      * Переопределение метода onResume()
      *
      * Если активность встает в фокус на в первый раз, то сразу же закрывается.
+     * TODO
      */
     @Override
     protected void onResume() {
@@ -177,19 +186,40 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
 
         if (isZeroTimesResumed) {
             isZeroTimesResumed = false;
+
+            if (sensorNotFound) {
+                Intent intent = new Intent(this, SensorNotFoundActivity.class);
+                startActivityForResult(intent, Cnst.RC_ASNF);
+            }
         } else {
-            this.finish();
+            setResult(Cnst.RESULT_GO_TO_START_ACTIVITY);
+            finish();
         }
     }
 
     /**
-     * Переопрадаление метода, вызывающегося при нажатии кнопки "Назад"
+     * Переопределение метода, вызывающегося при нажатии кнопки "Назад"
      *
      * Закрываем активность.
      */
     @Override
     public void onBackPressed() {
-        this.finish();
+        setResult(Cnst.RESULT_GO_TO_START_ACTIVITY);
+        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case Cnst.RC_ASNF:
+                setResult(Cnst.RESULT_NEED_TO_EXIT);
+                finish();
+                break;
+            default:
+                setResult(Cnst.RESULT_GO_TO_START_ACTIVITY);
+                finish();
+                break;
+        }
     }
 
     /**
@@ -206,7 +236,7 @@ public class MeasureActivity extends AppCompatActivity implements View.OnClickLi
             public void run() {
 
                 Intent intent = new Intent(MeasureActivity.this, ResultActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, Cnst.RC_AR);
 
             }
         });

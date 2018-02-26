@@ -68,6 +68,20 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     private void launchMeasureActivityWithTime(int time) {
         Intent intent = new Intent(StartActivity.this, MeasureActivity.class);
         Mem.measureTimeInit = time;
-        startActivity(intent);
+        startActivityForResult(intent, Cnst.RC_AM);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case Cnst.RC_AM:
+                if (resultCode == Cnst.RESULT_NEED_TO_EXIT) {
+                    finish();
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

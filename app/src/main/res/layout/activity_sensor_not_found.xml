@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/bckgndError"
+    tools:context="com.akropon.tremormeter.SensorNotFoundActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:text="УВЫ :("
+        android:layout_margin="15dp"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:text="Приложению не удалось обнаружить акселерометр на данном устройстве. Дальнейшая работа невозможна."
+        android:layout_margin="15dp"/>
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:text="Нажмите ВЫХОД для закрытия приложения"
+        android:layout_margin="15dp"/>
+
+
+    <Button
+        android:id="@+id/btn_asnf_exit"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:textSize="15dp"
+        android:text="Выход" />
+
+</LinearLayout>

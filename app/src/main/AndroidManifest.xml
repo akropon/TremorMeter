@@ -22,8 +22,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ResultActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".SensorNotFoundActivity"></activity>
     </application>
 
 </manifest>
