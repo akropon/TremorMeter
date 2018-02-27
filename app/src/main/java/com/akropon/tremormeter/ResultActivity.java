@@ -52,6 +52,7 @@ public class ResultActivity extends AppCompatActivity {
         analysisExicutor.start();
 
         graphView1.setBackgroundColor(getResources().getColor(R.color.softLightGreen));
+        graphView1.getGridLabelRenderer().setHorizontalLabelsVisible(false);
     }
 
     /**

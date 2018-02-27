@@ -3,13 +3,16 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="softLightGreen">#bde9ce</color>
+    <color name="black">#000000</color>
+
     <color name="bckgndMain">#e7e7e7</color>
     <color name="bckgndDelay">#d17160</color>
     <color name="bckgndError">#d17160</color>
     <color name="bckgndMeasure">#d1c471</color>
     <color name="bckgndSuccess">#72c491</color>
-    <color name="softLightGreen">#bde9ce</color>
-    <color name="black">#000000</color>
+
     <color name="app_icon_bckgnd">#FF5300</color>
     <color name="app_icon_txt">#ffffff</color>
     <color name="app_icon_vibrations">#000000</color>
